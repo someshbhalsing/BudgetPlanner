@@ -1,6 +1,6 @@
 Follow MySQL databases commands below before using the project
 
-create database budgetplanner;
+create com.budgetplanner.database budgetplanner;
 
 CREATE TABLE user (
   uid INT NOT NULL AUTO_INCREMENT,
@@ -10,7 +10,7 @@ CREATE TABLE user (
   city VARCHAR(45),
   state VARCHAR(45),
   country VARCHAR(45),
-  phone_no INT(10),
+  phone_no VARCHAR(10),
   email_addr VARCHAR(45),
   monthly_budget INT,
   PRIMARY KEY (uid));
