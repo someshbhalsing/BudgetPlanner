@@ -12,9 +12,10 @@ CREATE TABLE user (
   country VARCHAR(45),
   phone_no INT(10),
   email_addr VARCHAR(45),
+  monthly_budget INT,
   PRIMARY KEY (uid));
 
-CREATE TABLE expensed (
+CREATE TABLE expenses (
   eid INT NOT NULL AUTO_INCREMENT,
   date DATE,
   item_name VARCHAR(45),
@@ -24,8 +25,6 @@ CREATE TABLE expensed (
   remaining_amount INT,
   PRIMARY KEY (eid));
 
-  ALTER TABLE user
-  ADD COLUMN monthly_budget INT;
 
 CREATE TABLE manages (
   eid INT NOT NULL,
