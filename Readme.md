@@ -1,6 +1,6 @@
 <h1>Follow MySQL databases commands below before using the project</h1>
 
-create com.budgetplanner.database budgetplanner;
+create database budgetplanner;
 
 CREATE TABLE user (
   uid INT NOT NULL AUTO_INCREMENT,
