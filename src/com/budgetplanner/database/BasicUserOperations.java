@@ -27,6 +27,7 @@ public class BasicUserOperations extends ConnectionHelper {
         user.delete(id);
     }
 
+
     private boolean insert(User user) {
         try {
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
