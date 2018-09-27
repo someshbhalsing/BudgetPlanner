@@ -1,4 +1,4 @@
-<b>Follow MySQL databases commands below before using the project</b>
+<h1>Follow MySQL databases commands below before using the project</h1>
 
 create com.budgetplanner.database budgetplanner;
 
