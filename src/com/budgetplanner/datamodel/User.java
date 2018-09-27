@@ -89,16 +89,5 @@ public class User {
         public static final String COLUMN_PHONE_NO = "phone_no";
         public static final String COLUMN_EMAIL_ADDRESS = "email_addr";
         public static final String COLUMN_MONTHLY_BUDGET = "monthly_budget";
-
-        public static final int INDEX_USERID = 1;
-        public static final int INDEX_USERNAME = 2;
-        public static final int INDEX_PASSWORD = 3;
-        public static final int INDEX_STREET = 4;
-        public static final int INDEX_CITY = 5;
-        public static final int INDEX_STATE = 6;
-        public static final int INDEX_COUNTRY = 7;
-        public static final int INDEX_PHONE_NO = 8;
-        public static final int INDEX_EMAIL_ADDRESS = 9;
-        public static final int INDEX_MONTHLY_BUDGET = 10;
     }
 }
