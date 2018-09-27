@@ -1,7 +1,6 @@
 package com.budgetplanner.database;
 
 import com.budgetplanner.datamodel.User;
-import org.jetbrains.annotations.TestOnly;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,23 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BasicUserOperations extends ConnectionHelper {
-
-    @TestOnly
-    public static void main(String[] args) {
-        BasicUserOperations user = new BasicUserOperations();
-        boolean flag = user.insert(new User(0, "A", "A", "A", "A", "A", "A", "A", "A", 1500));
-        if (flag) {
-            int id = user.query("select * from user").get(0).getuId();
-            flag = user.update(new User(id, "B", "B", "B", "B", "B", "B", "B", "B", 1500));
-        }
-        if (flag) {
-            String uname = user.query("select * from user").get(0).getUserName();
-            System.out.printf("Username : " + uname);
-        }
-        int id = user.query("select * from user").get(0).getuId();
-        user.delete(id);
-    }
-
 
     private boolean insert(User user) {
         try {
