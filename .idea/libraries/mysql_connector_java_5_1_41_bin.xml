@@ -2,8 +2,11 @@
   <library name="mysql-connector-java-5.1.41-bin">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/mysql-connector-java-5.1.41-bin.jar!/" />
+      <root url="jar://$PROJECT_DIR$/DatePicker.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/DatePicker.jar!/" />
+    </SOURCES>
   </library>
 </component>

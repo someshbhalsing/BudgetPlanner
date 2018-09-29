@@ -53,7 +53,7 @@ public class Validations {
         return true;
     }
 
-    static boolean isInvalidString(String string, int minLength) {
+    public static boolean isInvalidString(String string, int minLength) {
         return string == null || string.length() < minLength;
     }
 

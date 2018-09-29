@@ -4,7 +4,6 @@ import com.budgetplanner.UI.Authentication.callbacks.OnLoginEventListener;
 import com.budgetplanner.UI.Authentication.callbacks.OnRegistrationCompleteListener;
 import com.budgetplanner.UI.useractivity.MainActivity;
 import com.budgetplanner.datamodel.User;
-import org.jetbrains.annotations.TestOnly;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +14,7 @@ public class AuthActivity extends JFrame implements OnRegistrationCompleteListen
     private JPanel fragmentPanel;
 
 
-    private AuthActivity() {
+    public AuthActivity() {
 
         setTitle("Authentication");
         setBounds(0, 0, 800, 720);
@@ -32,7 +31,6 @@ public class AuthActivity extends JFrame implements OnRegistrationCompleteListen
 
     }
 
-    @TestOnly
     public static void main(String[] args) {
         new AuthActivity();
     }
@@ -61,7 +59,8 @@ public class AuthActivity extends JFrame implements OnRegistrationCompleteListen
 
     @Override
     public void onRegistrationComplete() {
-        System.out.println("Registration complete");
+        JOptionPane.showMessageDialog(getParent(), "Registration complete");
+        showLoginPanel();
     }
 
     @Override

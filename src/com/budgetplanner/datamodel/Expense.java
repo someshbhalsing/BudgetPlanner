@@ -1,15 +1,18 @@
 package com.budgetplanner.datamodel;
 
+import java.sql.Date;
+
 public class Expense {
 
-    String pay_method;
     private int id;
-    private String date;
+    private Date date;
     private String name;
     private String description;
     private int price;
+    private String pay_method;
 
-    public Expense(int id, String date, String name, String description, int price, String pay_method) {
+
+    public Expense(int id, Date date, String name, String description, int price, String pay_method) {
         this.id = id;
         this.date = date;
         this.name = name;
@@ -22,7 +25,7 @@ public class Expense {
         return id;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -50,6 +53,10 @@ public class Expense {
         public static final String COLUMN_DESCRIPTION = "description";
         public static final String COLUMN_PRICE = "price";
         public static final String COLUMN_PAY_METHOD = "pay_method";
+    }
+
+    public String[] getStringArrayObject() {
+        return new String[]{String.valueOf(id), date.toString(), name, description, String.valueOf(price), pay_method};
     }
 
 }

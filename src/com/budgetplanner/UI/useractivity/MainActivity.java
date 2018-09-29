@@ -1,12 +1,21 @@
 package com.budgetplanner.UI.useractivity;
 
+import com.budgetplanner.UI.Authentication.AuthActivity;
+import com.budgetplanner.database.AdvancedExpenseOperations;
 import com.budgetplanner.datamodel.User;
-import org.jetbrains.annotations.TestOnly;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 public class MainActivity extends JFrame {
 
+    private final JLabel centerFrame;
     private User user;
 
     private JLabel userNameLabel;
@@ -18,33 +27,88 @@ public class MainActivity extends JFrame {
     private JButton addExpense;
     private JButton showStats;
 
+    private JPanel fragmentPanel;
+    private List<String[]> list;
+
+    private String from;
+    private String to;
+
     public MainActivity(User user) {
         this.user = user;
 
         setTitle("Income planner");
-        setBounds(0, 0, 800, 720);
+        setBounds(0, 0, 850, 720);
         setLayout(null);
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         addProfileSection();
 
         addNavigationButtons();
-        setVisible(true);
-    }
 
-    @TestOnly
-    public static void main(String[] args) {
-        new MainActivity(new User(0, "Somesh", null, null, null, null, null, null, "somesh.bhalsing@gmail.com", 0));
+        centerFrame = new JLabel();
+        centerFrame.setLayout(null);
+        centerFrame.setBounds(10, 100, 830, 630);
+        add(centerFrame);
+
+        setVisible(true);
     }
 
     private void addNavigationButtons() {
         addExpense = new JButton("Add expense");
         addExpense.setBounds(60, 60, 320, 40);
+        addExpense.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                showAddExpensePanel();
+            }
+        });
         add(addExpense);
 
         showStats = new JButton("Show statistics");
         showStats.setBounds(420, 60, 320, 40);
+        showStats.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(getParent(), "Select from date ");
+                com.qt.datapicker.DatePicker dt = new com.qt.datapicker.DatePicker(null);
+                dt.register(new Observer() {
+                    @Override
+                    public void update(Observable o, Object arg) {
+                        Calendar calendar = (Calendar) arg;
+                        com.qt.datapicker.DatePicker dp = (com.qt.datapicker.DatePicker) o;
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        from = sdf.format(calendar.getTime());
+                        JOptionPane.showMessageDialog(getParent(), "Select to date ");
+                        com.qt.datapicker.DatePicker dt = new com.qt.datapicker.DatePicker(null);
+                        dt.register(new Observer() {
+                            @Override
+                            public void update(Observable o, Object arg) {
+                                Calendar calendar = (Calendar) arg;
+                                com.qt.datapicker.DatePicker dp = (com.qt.datapicker.DatePicker) o;
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                to = sdf.format(calendar.getTime());
+                                list = new AdvancedExpenseOperations(user.getuId()).getSpendingArray(from, to);
+                                showExpenseListPanel();
+                            }
+                        });
+                        dt.start(null);
+                    }
+                });
+                dt.start(null);
+            }
+        });
         add(showStats);
+    }
+
+    private void showAddExpensePanel() {
+        if (fragmentPanel instanceof ExpenseListPanel) {
+            centerFrame.remove(fragmentPanel);
+        }
+        fragmentPanel = new AddExpensePanel(user.getuId());
+        fragmentPanel.setBounds(10, 10, 780, 550);
+        fragmentPanel.setVisible(true);
+        centerFrame.add(fragmentPanel);
+        centerFrame.updateUI();
     }
 
     private void addProfileSection() {
@@ -66,6 +130,24 @@ public class MainActivity extends JFrame {
 
         logOutButton = new JButton("Log out");
         logOutButton.setBounds(680, 15, 100, 30);
+        logOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new AuthActivity();
+                dispose();
+            }
+        });
         add(logOutButton);
+    }
+
+    private void showExpenseListPanel() {
+        if (fragmentPanel instanceof AddExpensePanel) {
+            centerFrame.remove(fragmentPanel);
+        }
+        fragmentPanel = new ExpenseListPanel(list);
+        fragmentPanel.setBounds(10, 10, 780, 550);
+        fragmentPanel.setVisible(true);
+        centerFrame.add(fragmentPanel);
+        centerFrame.updateUI();
     }
 }

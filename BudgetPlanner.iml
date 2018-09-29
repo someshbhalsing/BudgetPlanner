@@ -17,5 +17,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="DatePicker-V0.99-2006.09.01" level="project" />
   </component>
 </module>
