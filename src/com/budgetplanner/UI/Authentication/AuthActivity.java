@@ -2,6 +2,7 @@ package com.budgetplanner.UI.Authentication;
 
 import com.budgetplanner.UI.Authentication.callbacks.OnLoginEventListener;
 import com.budgetplanner.UI.Authentication.callbacks.OnRegistrationCompleteListener;
+import com.budgetplanner.UI.useractivity.MainActivity;
 import com.budgetplanner.datamodel.User;
 import org.jetbrains.annotations.TestOnly;
 
@@ -71,6 +72,8 @@ public class AuthActivity extends JFrame implements OnRegistrationCompleteListen
     @Override
     public void onLoginSuccessful(User user) {
         System.out.println("Login successful for user : " + user.getUserName());
+        new MainActivity(user);
+        dispose();
     }
 
     @Override

@@ -77,7 +77,7 @@ public class User {
         return monthlyBudget;
     }
 
-    public static class DatabaseHelper {
+    public static final class DatabaseHelper {
         public static final String TABLE_NAME = "user";
         public static final String COLUMN_USERID = "uid";
         public static final String COLUMN_USERNAME = "uname";
