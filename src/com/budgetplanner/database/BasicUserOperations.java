@@ -10,7 +10,7 @@ import java.util.List;
 
 public class BasicUserOperations extends ConnectionHelper {
 
-    private boolean insert(User user) {
+    public boolean insert(User user) {
         try {
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet set = statement.executeQuery("select * from " + User.DatabaseHelper.TABLE_NAME);
@@ -28,13 +28,13 @@ public class BasicUserOperations extends ConnectionHelper {
             set.close();
             statement.close();
         } catch (SQLException e) {
-            System.out.println("e.getSQLState() = " + e.getSQLState());
+            System.out.println("insertion exception = " + e.toString());
             return false;
         }
         return true;
     }
 
-    private boolean update(User user) {
+    public boolean update(User user) {
         try {
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet set = statement.executeQuery(
@@ -55,13 +55,13 @@ public class BasicUserOperations extends ConnectionHelper {
             set.close();
             statement.close();
         } catch (SQLException e) {
-            System.out.println("e.getSQLState() = " + e.getSQLState());
+            System.out.println("updation exception = " + e.toString());
             return false;
         }
         return true;
     }
 
-    private boolean delete(int userId) {
+    public boolean delete(int userId) {
         try {
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet set = statement.executeQuery(
@@ -73,18 +73,21 @@ public class BasicUserOperations extends ConnectionHelper {
             set.close();
             statement.close();
         } catch (SQLException e) {
-            System.out.println("e.getSQLState() = " + e.getSQLState());
+            System.out.println("deletion exception = " + e.toString());
             return false;
         }
         return true;
     }
 
-    private List<User> query(String query) {
+    public List<User> query(String query) {
         List<User> retList = new ArrayList<>();
         try {
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet set = statement.executeQuery(query);
-            set.first();
+
+            if (!set.first()) {
+                return null;
+            }
             while (!set.isAfterLast()) {
                 User user = new User(
                         set.getInt(User.DatabaseHelper.COLUMN_USERID),
@@ -104,7 +107,7 @@ public class BasicUserOperations extends ConnectionHelper {
             set.close();
             statement.close();
         } catch (SQLException e) {
-            System.out.println("e.getSQLState() = " + e.getSQLState());
+            System.out.println("query exception = " + e.toString());
             return null;
         }
         return retList;

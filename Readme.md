@@ -22,7 +22,6 @@ CREATE TABLE expenses (
   description VARCHAR(45),
   price INT,
   pay_method VARCHAR(45),
-  remaining_amount INT,
   PRIMARY KEY (eid));
 
 

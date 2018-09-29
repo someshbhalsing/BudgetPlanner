@@ -1,6 +1,8 @@
 package com.budgetplanner.database;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class ConnectionHelper {
 
@@ -23,11 +25,6 @@ public class ConnectionHelper {
         } catch (SQLException e) {
             System.out.println("Unable to establish connection");
         }
-    }
-
-    public ResultSet getResultForQuery(String query) throws SQLException {
-        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-        return statement.executeQuery(query);
     }
 
 }
