@@ -36,7 +36,7 @@ public class AddExpensePanel extends JPanel {
         createTextFields();
 
         submit = new JButton("Submit");
-        submit.setBounds(80, 235, 400, 30);
+        submit.setBounds(80, 265, 400, 30);
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
