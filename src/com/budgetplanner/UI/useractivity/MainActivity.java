@@ -165,7 +165,7 @@ public class MainActivity extends JFrame {
         if (fragmentPanel instanceof ExpenseListPanel) {
             centerFrame.remove(fragmentPanel);
         }
-        fragmentPanel = new AddExpensePanel(user.getuId());
+        fragmentPanel = new AddExpensePanel(user);
         fragmentPanel.setBounds(10, 10, 780, 550);
         fragmentPanel.setVisible(true);
         period.setVisible(false);

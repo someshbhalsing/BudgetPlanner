@@ -2,6 +2,7 @@ package com.budgetplanner.UI.useractivity;
 
 import com.budgetplanner.database.AdvancedExpenseOperations;
 import com.budgetplanner.datamodel.Expense;
+import com.budgetplanner.datamodel.User;
 import com.budgetplanner.datamodel.Validations;
 
 import javax.swing.*;
@@ -11,7 +12,7 @@ import java.awt.event.ActionListener;
 public class AddExpensePanel extends JPanel {
 
     private static final int NEXT_LINE = 45;
-    private final int uid;
+    private User user;
     private JLabel titleLabel;
     private JLabel nameLabel;
     private JLabel descriptionLabel;
@@ -25,8 +26,8 @@ public class AddExpensePanel extends JPanel {
 
     private JButton submit;
 
-    public AddExpensePanel(int uid) {
-        this.uid = uid;
+    public AddExpensePanel(User user) {
+        this.user = user;
         setLayout(null);
         createLayout();
     }
@@ -56,6 +57,11 @@ public class AddExpensePanel extends JPanel {
                     JOptionPane.showMessageDialog(getParent(), "Invalid amount");
                     return;
                 }
+                if (!new AdvancedExpenseOperations(user.getuId())
+                        .validateSpendings(Integer.parseInt(amountTextField.getText()), user.getMonthlyBudget())) {
+                    JOptionPane.showMessageDialog(getParent(), "Amount exceeds your budget");
+                    return;
+                }
                 Expense expense = new Expense(
                         0,
                         null,
@@ -64,7 +70,7 @@ public class AddExpensePanel extends JPanel {
                         Integer.parseInt(amountTextField.getText()),
                         payMethodTextField.getText()
                 );
-                new AdvancedExpenseOperations(uid).insert(expense);
+                new AdvancedExpenseOperations(user.getuId()).insert(expense);
                 JOptionPane.showMessageDialog(getParent(), "Inserted succesfully");
             }
         });

@@ -3,10 +3,11 @@ package com.budgetplanner.database;
 import com.budgetplanner.datamodel.Expense;
 import com.budgetplanner.datamodel.User;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class AdvancedExpenseOperations extends BasicExpenseOperations {
@@ -89,5 +90,15 @@ public class AdvancedExpenseOperations extends BasicExpenseOperations {
 
     public boolean insert(Expense expense) {
         return super.insert(expense, mUserId);
+    }
+
+    public boolean validateSpendings(int spendings, int budget) {
+        Calendar calendar = Calendar.getInstance();
+        String fromDate = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-01";
+        String toDate = calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
+        System.out.println("from date : " + fromDate);
+        System.out.printf("to date : " + toDate);
+        System.out.println("spendings : " + getTotalSpendings(fromDate, toDate));
+        return spendings + getTotalSpendings(fromDate, toDate) <= budget;
     }
 }
