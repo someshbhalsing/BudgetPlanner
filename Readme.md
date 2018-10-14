@@ -34,3 +34,12 @@ CREATE TABLE manages (
     FOREIGN KEY (uid)
     REFERENCES user (uid)
 );
+
+DELIMITER $$
+CREATE TRIGGER phone_validation_before_insert BEFORE INSERT ON user FOR EACH ROW
+BEGIN
+	IF CHAR_LENGTH(NEW.phone_no) != 10
+    then
+		SIGNAL sqlstate '45000' set MESSAGE_TEXT = 'Phone no validation failed';
+	end if;
+END$$
