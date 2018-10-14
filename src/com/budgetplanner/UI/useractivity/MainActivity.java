@@ -162,6 +162,5 @@ public class MainActivity extends JFrame {
         fragmentPanel.setVisible(true);
         centerFrame.add(fragmentPanel);
         centerFrame.updateUI();
-        System.out.println("hello");
     }
 }
