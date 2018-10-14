@@ -6,10 +6,8 @@ import com.budgetplanner.datamodel.User;
 import com.budgetplanner.datamodel.Validations;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class AddExpensePanel extends JPanel {
+class AddExpensePanel extends JPanel {
 
     private static final int NEXT_LINE = 45;
     private User user;
@@ -26,7 +24,7 @@ public class AddExpensePanel extends JPanel {
 
     private JButton submit;
 
-    public AddExpensePanel(User user) {
+    AddExpensePanel(User user) {
         this.user = user;
         setLayout(null);
         createLayout();
@@ -38,41 +36,45 @@ public class AddExpensePanel extends JPanel {
 
         submit = new JButton("Submit");
         submit.setBounds(80, 265, 400, 30);
-        submit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (Validations.isInvalidString(nameTextField.getText(), 3)) {
-                    JOptionPane.showMessageDialog(getParent(), "Invalid name");
-                    return;
-                }
-                if (Validations.isInvalidString(descriptionTextField.getText(), 3)) {
-                    JOptionPane.showMessageDialog(getParent(), "Invalid description");
-                    return;
-                }
-                if (Validations.isInvalidString(payMethodTextField.getText(), 3)) {
-                    JOptionPane.showMessageDialog(getParent(), "Invalid payment method");
-                    return;
-                }
-                if (!Validations.isNumber(amountTextField.getText())) {
-                    JOptionPane.showMessageDialog(getParent(), "Invalid amount");
-                    return;
-                }
-                if (!new AdvancedExpenseOperations(user.getuId())
-                        .validateSpendings(Integer.parseInt(amountTextField.getText()), user.getMonthlyBudget())) {
-                    JOptionPane.showMessageDialog(getParent(), "Amount exceeds your budget");
-                    return;
-                }
-                Expense expense = new Expense(
-                        0,
-                        null,
-                        nameTextField.getText(),
-                        descriptionTextField.getText(),
-                        Integer.parseInt(amountTextField.getText()),
-                        payMethodTextField.getText()
-                );
-                new AdvancedExpenseOperations(user.getuId()).insert(expense);
-                JOptionPane.showMessageDialog(getParent(), "Inserted succesfully");
+        submit.addActionListener(e -> {
+            if (Validations.isInvalidString(nameTextField.getText(), 3)) {
+                JOptionPane.showMessageDialog(getParent(), "Invalid name");
+                return;
             }
+            if (Validations.isInvalidString(descriptionTextField.getText(), 3)) {
+                JOptionPane.showMessageDialog(getParent(), "Invalid description");
+                return;
+            }
+            if (Validations.isInvalidString(payMethodTextField.getText(), 3)) {
+                JOptionPane.showMessageDialog(getParent(), "Invalid payment method");
+                return;
+            }
+            if (!Validations.isNumber(amountTextField.getText())) {
+                JOptionPane.showMessageDialog(getParent(), "Invalid amount");
+                return;
+            }
+            if (!new AdvancedExpenseOperations(user.getuId())
+                    .validateSpendings(Integer.parseInt(amountTextField.getText()), user.getMonthlyBudget())) {
+                int choice = JOptionPane.showConfirmDialog(
+                        getParent(),
+                        "Still wish to insert?",
+                        "Amount exceeds your budget",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                System.out.println(choice);
+                if (choice != 0)
+                    return;
+            }
+            Expense expense = new Expense(
+                    0,
+                    null,
+                    nameTextField.getText(),
+                    descriptionTextField.getText(),
+                    Integer.parseInt(amountTextField.getText()),
+                    payMethodTextField.getText()
+            );
+            new AdvancedExpenseOperations(user.getuId()).insert(expense);
+            JOptionPane.showMessageDialog(getParent(), "Inserted succesfully");
         });
         add(submit);
     }

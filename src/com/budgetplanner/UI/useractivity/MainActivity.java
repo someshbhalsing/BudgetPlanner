@@ -5,13 +5,9 @@ import com.budgetplanner.database.AdvancedExpenseOperations;
 import com.budgetplanner.datamodel.User;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 public class MainActivity extends JFrame {
 
@@ -96,12 +92,9 @@ public class MainActivity extends JFrame {
 
         logOutButton = new JButton("Log out");
         logOutButton.setBounds(680, 15, 100, 30);
-        logOutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new AuthActivity();
-                dispose();
-            }
+        logOutButton.addActionListener(e -> {
+            new AuthActivity();
+            dispose();
         });
         add(logOutButton);
     }
@@ -109,54 +102,40 @@ public class MainActivity extends JFrame {
     private void addNavigationButtons() {
         addExpense = new JButton("Add expense");
         addExpense.setBounds(60, 60, 320, 40);
-        addExpense.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showAddExpensePanel();
-            }
-        });
+        addExpense.addActionListener(e -> showAddExpensePanel());
         add(addExpense);
 
         showStats = new JButton("Show statistics");
         showStats.setBounds(420, 60, 320, 40);
-        showStats.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(getParent(), "Select from date ");
-                com.qt.datapicker.DatePicker dt = new com.qt.datapicker.DatePicker(null);
-                dt.register(new Observer() {
-                    @Override
-                    public void update(Observable o, Object arg) {
-                        Calendar calendar = (Calendar) arg;
-                        com.qt.datapicker.DatePicker dp = (com.qt.datapicker.DatePicker) o;
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        from = sdf.format(calendar.getTime());
-                        JOptionPane.showMessageDialog(getParent(), "Select to date ");
-                        com.qt.datapicker.DatePicker dt = new com.qt.datapicker.DatePicker(null);
-                        dt.register(new Observer() {
-                            @Override
-                            public void update(Observable o, Object arg) {
-                                Calendar calendar = (Calendar) arg;
-                                com.qt.datapicker.DatePicker dp = (com.qt.datapicker.DatePicker) o;
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                                to = sdf.format(calendar.getTime());
-                                AdvancedExpenseOperations aeo = new AdvancedExpenseOperations(user.getuId());
-                                list = aeo.getSpendingArray(from, to);
-                                int expenditureAmount = aeo.getTotalSpendings(from, to);
-                                expenditure.setText(String.valueOf(expenditureAmount));
-                                period.setText(from + " to " + to);
-                                period.setVisible(true);
-                                periodLabel.setVisible(true);
-                                expenditure.setVisible(true);
-                                expenditureLabel.setVisible(true);
-                                showExpenseListPanel();
-                            }
-                        });
-                        dt.start(null);
-                    }
+        showStats.addActionListener(e -> {
+            JOptionPane.showMessageDialog(getParent(), "Select from date ");
+            com.qt.datapicker.DatePicker dt = new com.qt.datapicker.DatePicker(null);
+            dt.register((o, arg) -> {
+                Calendar calendar = (Calendar) arg;
+                com.qt.datapicker.DatePicker dp = (com.qt.datapicker.DatePicker) o;
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                from = sdf.format(calendar.getTime());
+                JOptionPane.showMessageDialog(getParent(), "Select to date ");
+                com.qt.datapicker.DatePicker dt1 = new com.qt.datapicker.DatePicker(null);
+                dt1.register((o1, arg1) -> {
+                    Calendar calendar1 = (Calendar) arg1;
+                    com.qt.datapicker.DatePicker dp1 = (com.qt.datapicker.DatePicker) o1;
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                    to = sdf1.format(calendar1.getTime());
+                    AdvancedExpenseOperations aeo = new AdvancedExpenseOperations(user.getuId());
+                    list = aeo.getSpendingArray(from, to);
+                    int expenditureAmount = aeo.getTotalSpendings(from, to);
+                    expenditure.setText(String.valueOf(expenditureAmount));
+                    period.setText(from + " to " + to);
+                    period.setVisible(true);
+                    periodLabel.setVisible(true);
+                    expenditure.setVisible(true);
+                    expenditureLabel.setVisible(true);
+                    showExpenseListPanel();
                 });
-                dt.start(null);
-            }
+                dt1.start(null);
+            });
+            dt.start(null);
         });
         add(showStats);
     }
@@ -177,9 +156,7 @@ public class MainActivity extends JFrame {
     }
 
     private void showExpenseListPanel() {
-        if (fragmentPanel instanceof AddExpensePanel) {
-            centerFrame.remove(fragmentPanel);
-        }
+        centerFrame.remove(fragmentPanel);
         fragmentPanel = new ExpenseListPanel(list);
         fragmentPanel.setBounds(10, 10, 780, 520);
         fragmentPanel.setVisible(true);
