@@ -6,8 +6,6 @@ import com.budgetplanner.datamodel.User;
 import com.budgetplanner.datamodel.Validations;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 class RegisterPanel extends JPanel {
 
@@ -17,11 +15,48 @@ class RegisterPanel extends JPanel {
     private JPasswordField passwordField;
     private JTextField streetTextField;
     private JTextField cityTextField;
-    private JTextField stateTextField;
-    private JTextField countryTextField;
+    private static final String[] states = {
+            "Andaman and Nicobar Islands",
+            "Andhra Pradesh", "Arunachal Pradesh",
+            "Assam",
+            "Bihar",
+            "Chandigarh",
+            "Chhattisgarh",
+            "Dadra and Nagar Haveli",
+            "Daman and Diu",
+            "Delhi",
+            "Goa",
+            "Gujarat",
+            "Haryana",
+            "Himachal Pradesh",
+            "Jammu and Kashmir",
+            "Jharkhand",
+            "Karnataka",
+            "Kerala",
+            "Lakshadweep",
+            "Madhya Pradesh",
+            "Maharashtra",
+            "Manipur",
+            "Meghalaya",
+            "Mizoram",
+            "Nagaland",
+            "Orissa",
+            "Pondicherry",
+            "Punjab",
+            "Rajasthan",
+            "Sikkim",
+            "Tamil Nadu",
+            "Telangana",
+            "Tripura",
+            "Uttaranchal",
+            "Uttar Pradesh",
+            "West Bengal"
+    };
+    private JComboBox<String> stateTextField;
     private JTextField phoneNoTextField;
     private JTextField emailAddressTextField;
     private JTextField monthlyIncomeTextField;
+    private JComboBox<String> countryTextField;
 
     RegisterPanel(OnRegistrationCompleteListener mOnRegistrationCompleteListener) {
 
@@ -41,37 +76,34 @@ class RegisterPanel extends JPanel {
 
         JButton registerButton = new JButton("Register");
         registerButton.setBounds(50, 550, 175, 40);
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("Registration clicked");
-                User user;
-                try {
-                    user = new User(
-                            0,
-                            nameTextField.getText(),
-                            new String(passwordField.getPassword()),
-                            streetTextField.getText(),
-                            cityTextField.getText(),
-                            stateTextField.getText(),
-                            countryTextField.getText(),
-                            phoneNoTextField.getText(),
-                            emailAddressTextField.getText(),
-                            Integer.parseInt(monthlyIncomeTextField.getText())
-                    );
-                } catch (NumberFormatException e1) {
-                    JOptionPane.showMessageDialog(getParent(), "validation failed");
-                    return;
-                }
-                if (Validations.validateUser(user)) {
-                    if (new AdvancedUserOperations().insert(user)) {
-                        mOnRegistrationCompleteListener.onRegistrationComplete();
-                    } else {
-                        JOptionPane.showMessageDialog(getParent(), "Operation failed");
-                    }
+        registerButton.addActionListener(e -> {
+            System.out.println("Registration clicked");
+            User user;
+            try {
+                user = new User(
+                        0,
+                        nameTextField.getText(),
+                        new String(passwordField.getPassword()),
+                        streetTextField.getText(),
+                        cityTextField.getText(),
+                        stateTextField.getItemAt(stateTextField.getSelectedIndex()),
+                        countryTextField.getItemAt(countryTextField.getSelectedIndex()),
+                        phoneNoTextField.getText(),
+                        emailAddressTextField.getText(),
+                        Integer.parseInt(monthlyIncomeTextField.getText())
+                );
+            } catch (NumberFormatException e1) {
+                JOptionPane.showMessageDialog(getParent(), "validation failed");
+                return;
+            }
+            if (Validations.validateUser(user)) {
+                if (new AdvancedUserOperations().insert(user)) {
+                    mOnRegistrationCompleteListener.onRegistrationComplete();
                 } else {
-                    JOptionPane.showMessageDialog(getParent(), "validation failed");
+                    JOptionPane.showMessageDialog(getParent(), "Operation failed");
                 }
+            } else {
+                JOptionPane.showMessageDialog(getParent(), "validation failed");
             }
         });
         add(registerButton);
@@ -79,12 +111,7 @@ class RegisterPanel extends JPanel {
 
         JButton loginButton = new JButton("Back to login");
         loginButton.setBounds(325, 550, 175, 40);
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mOnRegistrationCompleteListener.returnToLogin();
-            }
-        });
+        loginButton.addActionListener(e -> mOnRegistrationCompleteListener.returnToLogin());
         add(loginButton);
 
 
@@ -113,12 +140,16 @@ class RegisterPanel extends JPanel {
         add(cityTextField);
         y += NEXT_LINE;
 
-        stateTextField = new JTextField();
+        stateTextField = new JComboBox<>();
+        for (String state : states) {
+            stateTextField.addItem(state);
+        }
         stateTextField.setBounds(150, y, 400, 40);
         add(stateTextField);
         y += NEXT_LINE;
 
-        countryTextField = new JTextField();
+        countryTextField = new JComboBox<>();
+        countryTextField.addItem("India");
         countryTextField.setBounds(150, y, 400, 40);
         add(countryTextField);
         y += NEXT_LINE;
@@ -200,3 +231,39 @@ class RegisterPanel extends JPanel {
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -24,7 +24,6 @@ public class AuthActivity extends JFrame implements OnRegistrationCompleteListen
         centerFrame = new JLabel();
         centerFrame.setLayout(null);
         add(centerFrame);
-
         showLoginPanel();
 
         setVisible(true);

@@ -1,7 +1,6 @@
 package com.budgetplanner.database;
 
 import com.budgetplanner.datamodel.Expense;
-import org.jetbrains.annotations.TestOnly;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,15 +10,7 @@ import java.util.List;
 
 public class BasicExpenseOperations extends ConnectionHelper {
 
-    @TestOnly
-    public static void main(String[] args) {
-        BasicExpenseOperations op = new BasicExpenseOperations();
-        for (int i = 0; i < 100; i++) {
-            op.insert(new Expense(1, null, "XYZ", "UVW", 1500, "Card"), 14);
-        }
-    }
-
-    public boolean insert(Expense expense, int uid) {
+    boolean insert(Expense expense, int uid) {
         try {
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
             ResultSet set = statement.executeQuery("select * from " + Expense.DatabaseHelper.TABLE_NAME);
@@ -81,7 +72,7 @@ public class BasicExpenseOperations extends ConnectionHelper {
         return true;
     }
 
-    public List<Expense> query(String query) {
+    List<Expense> query(String query) {
         List<Expense> retList = new ArrayList<>();
         try {
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -139,7 +130,7 @@ public class BasicExpenseOperations extends ConnectionHelper {
         }
     }
 
-    public List<String[]> queryStringArray(String query) {
+    List<String[]> queryStringArray(String query) {
         List<String[]> retList = new ArrayList<>();
         try {
             Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
