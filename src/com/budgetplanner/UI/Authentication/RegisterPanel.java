@@ -96,6 +96,10 @@ class RegisterPanel extends JPanel {
                 JOptionPane.showMessageDialog(getParent(), "validation failed");
                 return;
             }
+            if (new AdvancedUserOperations().userNameExists(user.getUserName())) {
+                JOptionPane.showMessageDialog(getParent(), "User name already exists");
+                return;
+            }
             if (Validations.validateUser(user)) {
                 if (new AdvancedUserOperations().insert(user)) {
                     mOnRegistrationCompleteListener.onRegistrationComplete();

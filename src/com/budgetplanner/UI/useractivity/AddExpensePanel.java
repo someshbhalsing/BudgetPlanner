@@ -33,7 +33,6 @@ class AddExpensePanel extends JPanel {
         this.user = user;
         setLayout(new BorderLayout());
         label = new JLabel();
-        label.setIcon(new ImageIcon("C:\\Users\\somesh\\IntelliJIDEAProjects\\BudgetPlanner\\src\\com\\budgetplanner\\abc.jpg"));
         label.setLayout(null);
         add(label);
         createLayout();
